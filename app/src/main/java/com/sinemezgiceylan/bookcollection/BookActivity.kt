@@ -21,10 +21,16 @@ class BookActivity : AppCompatActivity() {
 
         database = this.openOrCreateDatabase("Books", MODE_PRIVATE,null)
 
+
         val intent = intent
         val info = intent.getStringExtra("info")
         if (info.equals("new")) {
+            binding.bookName.setText("")
+            binding.writerName.setText("")
+            binding.type.setText("")
+            binding.page.setText("")
             binding.button.visibility = View.VISIBLE
+
 
         } else {
             binding.button.visibility = View.INVISIBLE
@@ -39,13 +45,13 @@ class BookActivity : AppCompatActivity() {
 
             while(cursor.moveToNext()) {
                 binding.bookName.setText(cursor.getString(bookNameIx))
-                println("Book Name: " + cursor.getString(bookNameIx))
                 binding.writerName.setText(cursor.getString(writerNameIx))
-                binding.type.setText(getString(typeIx))
-                binding.page.setText(getString(pageIx))
+                binding.type.setText(cursor.getString(typeIx))
+                binding.page.setText(cursor.getString(pageIx))
             }
 
             cursor.close()
+
 
         }
     }
@@ -60,7 +66,7 @@ class BookActivity : AppCompatActivity() {
 
         try {
 
-            database.execSQL("CREATE TABLE IF NOT EXISTS books (id INTEGER PRİMARY KEY, bookname VARCHAR, writername VARCHAR, type VARCHAR, page VARCHAR)")
+            database.execSQL("CREATE TABLE IF NOT EXISTS books (id INTEGER PRIMARY KEY, bookname VARCHAR, writername VARCHAR, type VARCHAR, page VARCHAR)")
 
             val sqlString = "INSERT INTO books (bookname, writername, type, page) VALUES (?, ?, ?, ?)"
             val statement = database.compileStatement(sqlString)
@@ -71,7 +77,7 @@ class BookActivity : AppCompatActivity() {
             statement.bindString(4,page)
             statement.execute()
 
-            
+
         } catch (e: Exception) {
             e.printStackTrace()
         }

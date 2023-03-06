@@ -27,9 +27,7 @@ class MainActivity : AppCompatActivity() {
 
 
         try {
-
             val database = this.openOrCreateDatabase("Books", MODE_PRIVATE,null)
-
             val cursor = database.rawQuery("SELECT * FROM books",null)
             val bookNameIx = cursor.getColumnIndex("bookname")
             val idIx = cursor.getColumnIndex("id")
@@ -40,7 +38,6 @@ class MainActivity : AppCompatActivity() {
 
                 val book = Book(name, id)
                 bookList.add(book)
-
             }
 
             bookAdapter.notifyDataSetChanged()
@@ -50,7 +47,6 @@ class MainActivity : AppCompatActivity() {
         } catch (e: Exception) {
             e.printStackTrace()
         }
-
 
     }
 
